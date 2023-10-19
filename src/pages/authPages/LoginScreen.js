@@ -343,14 +343,6 @@ const LoginScreen = ({ navigation, route }) => {
             {I18n.t("rememberMe")}
           </Text>
         </View>
-        <View style={styles.header}>
-          <Image
-            animation="slide"
-            source={require("../../assets/Logo-small.png")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
 
         <Surface style={styles.box}>
           <View>
@@ -440,6 +432,90 @@ const LoginScreen = ({ navigation, route }) => {
                 onPress={() => navigation.navigate("QRReader")}
               >
                 <Text>{I18n.t("scanQR")}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={{ paddingBottom: 30 }}>
+            <View style={styles.centeredView}>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  Alert.alert("Modal has been closed.");
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>
+                      {I18n.t("beforeLogin")}
+                    </Text>
+                    <View>
+                      <TextInput
+                        label="IP Address"
+                        mode="outlined"
+                        placeholder="Enter IP Address"
+                        autoCapitalize="none"
+                        color={COLORS.white}
+                        placeholderTextColor={COLORS.gray}
+                        style={{
+                          borderColor: "#454545",
+                          borderWidth: 2,
+                          margin: 5,
+                          height: 50,
+                          borderRadius: 12,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          padding: 10,
+                        }}
+                        value={IpAddress} // Use IpAddress here
+                        onChangeText={(text) => setIpAddress(text)} // Update IpAddress state
+                      />
+                    </View>
+                    <View style={{ flexDirection: "row" }}>
+                      <View style={{ paddingRight: 10 }}>
+                        <TouchableOpacity
+                          style={[styles.button, styles.buttonClose]}
+                          onPress={() => navigation.navigate("QRReader")}
+                          onPressOut={() => setModalVisible(!modalVisible)}
+                        >
+                          <Text style={styles.textStyle}>
+                            {I18n.t("scanQR")}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={{ paddingRight: 10 }}>
+                        <TouchableOpacity
+                          style={[styles.button, styles.buttonClose]}
+                          onPress={() => IPSubmit()}
+                          onPressOut={() => setModalVisible(!modalVisible)}
+                        >
+                          <Text style={styles.textStyle}>
+                            {I18n.t("saveIP")}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View>
+                        <TouchableOpacity
+                          style={[styles.button, styles.buttonClose]}
+                          onPress={() => setModalVisible(!modalVisible)}
+                        >
+                          <Text style={styles.textStyle}>
+                            {I18n.t("close")}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonOpen]}
+                onPress={() => setModalVisible(true)}
+              >
+                <Text style={styles.textStyle}>{I18n.t("IPSettings")}</Text>
               </TouchableOpacity>
             </View>
           </View>
