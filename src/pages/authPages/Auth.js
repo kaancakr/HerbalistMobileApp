@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./LoginScreen";
 import QRReader from "./QRReader";
 import HomeScreen from "../tabPages/HomeScreen";
+import OpenScreen from "../tabPages/OpenScreen"
 
 const Stack = createStackNavigator();
 // Second Stack
@@ -18,6 +19,14 @@ function Auth({ navigation }) {
         },
       }}
     >
+      <Stack.Screen
+        name="OpenScreen"
+        component={OpenScreen}
+        options={{
+          headerShown: false,
+        }}
+      ></Stack.Screen>
+
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}

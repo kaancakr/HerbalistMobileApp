@@ -127,7 +127,8 @@ const en = {
   passings: "Passings",
   visitorName: "Visitor Name",
   goBack: "Go Back",
-  terminalList: "Terminal Settings"
+  terminalList: "Terminal Settings",
+  openScreenName: "Open Screen"
 };
 
 export default en;

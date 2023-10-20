@@ -126,6 +126,7 @@ const tr = {
   passings: "Geçişler",
   visitorName: "Ziyaretçi Adı",
   goBack: "Geriye Dön",
-  terminalList: "Terminal Ayarları"
+  terminalList: "Terminal Ayarları",
+  openScreenName: "Açılış Sayfası"
 };
 export default tr;
