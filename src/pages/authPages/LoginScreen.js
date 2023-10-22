@@ -14,16 +14,42 @@ import {
 } from "react-native";
 import { Surface, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
-import { Login, sendIPAddress } from "../../store/actions/auth";
 import COLORS from "../../constans/colors";
 import I18n from "../../constans/translation/I18n";
 import i18n from "../../constans/translation/I18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+} from "firebase/auth";
+import { auth } from "../../store/actions/firebaseConfig";
+
 const { width } = Dimensions.get("screen");
 
 const LoginScreen = ({ navigation, route }) => {
+
+  const [userInfo, setUserInfo] = React.useState();
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId:
+      "397825100171-0mb9mb62pcohglk6hp4pjji7cc37a76p.apps.googleusercontent.com",
+    androidClientId:
+      "397825100171-9p6kou3elami72qv14rth458kh8jhoc5.apps.googleusercontent.com",
+  });
+  React.useEffect(() => {
+    if (response?.type == "success") {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential);
+    }
+  }, [response]);
+
+
+
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -144,144 +170,9 @@ const LoginScreen = ({ navigation, route }) => {
     }
   };
 
-  const saveCredentialsToAsyncStorage = async (username, password) => {
-    try {
-      const credentials = { username, password };
-      await AsyncStorage.setItem("credentials", JSON.stringify(credentials));
-    } catch (error) {
-      console.error("Error saving credentials to AsyncStorage:", error);
-    }
-  };
-
-  const getSavedCredentialsFromAsyncStorage = async () => {
-    try {
-      const savedCredentials = await AsyncStorage.getItem("credentials");
-      const savedRememberMe = await AsyncStorage.getItem("rememberMe");
-
-      if (savedCredentials) {
-        const credentials = JSON.parse(savedCredentials);
-        setUsername(credentials.username);
-        setPassword(credentials.password);
-        if (savedRememberMe === "true") {
-          setRememberMe(true);
-        }
-      }
-    } catch (error) {
-      console.error(
-        "Error retrieving saved credentials from AsyncStorage:",
-        error
-      );
-    }
-  };
-
-  useEffect(() => {
-    getSavedCredentialsFromAsyncStorage();
-    checkNetworkStatus();
-
-    // Add a listener to check network status changes
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setNetworkStatus(state.isConnected ? "online" : "offline");
-    });
-
-    return () => {
-      // Cleanup by removing the listener
-      unsubscribe();
-    };
-  }, []);
-
   const toggleRememberMe = () => {
     setRememberMe((prev) => !prev);
   };
-
-  useEffect(() => {
-    const fetchSavedCredentials = async () => {
-      try {
-        const storedUsername = await AsyncStorage.getItem("username");
-        const storedPassword = await AsyncStorage.getItem("password");
-        const savedRememberMe = await AsyncStorage.getItem("rememberMe");
-        const savedIP = await AsyncStorage.getItem("savedIP");
-        const lastLoginDate = await AsyncStorage.getItem("lastLoginDate");
-
-        if (
-          storedUsername &&
-          storedPassword &&
-          savedRememberMe === "true" &&
-          savedIP &&
-          lastLoginDate
-        ) {
-          const currentDate = new Date();
-          const threeDaysAgo = new Date();
-          threeDaysAgo.setDate(currentDate.getDate() - 3);
-
-          if (new Date(lastLoginDate) >= threeDaysAgo) {
-            setUsername(storedUsername);
-            setPassword(storedPassword);
-            setIpAddress(savedIP);
-            dispatch(Login(storedUsername, storedPassword));
-            navigation.navigate("HomeScreen");
-          }
-        }
-      } catch (error) {
-        console.error("Error retrieving stored credentials:", error);
-      }
-    };
-
-    fetchSavedCredentials();
-  }, []);
-
-  useEffect(() => {
-    if (route.params && route.params.scannedData) {
-      const scannedData = JSON.parse(route.params.scannedData);
-      setUsername(scannedData.username);
-      setPassword(scannedData.password);
-      setIpAddress(scannedData.ipAddress);
-
-      IPSubmit();
-
-      submit();
-    }
-  }, [route.params]);
-
-  const handleLogout = async () => {
-    try {
-      await AsyncStorage.removeItem("credentials");
-      await AsyncStorage.removeItem("rememberMe");
-    } catch (error) {
-      console.error("Error clearing stored credentials:", error);
-    }
-
-    navigation.navigate("Login");
-  };
-
-  const IPSubmit = async () => {
-    if (IpAddress !== "") {
-      Alert.alert(IpAddress + " ", "Saved Successfully");
-      try {
-        await AsyncStorage.setItem("savedIP", IpAddress);
-      } catch (error) {
-        console.error("Error saving IP address:", error);
-      }
-      dispatch(sendIPAddress(IpAddress));
-    }
-  };
-
-  useEffect(() => {}, [IpAddress]);
-
-  useEffect(() => {
-    const fetchSavedIP = async () => {
-      try {
-        const savedIP = await AsyncStorage.getItem("savedIP");
-        if (savedIP) {
-          setIpAddress(savedIP);
-          dispatch(sendIPAddress(savedIP));
-        }
-      } catch (error) {
-        console.error("Error retrieving saved IP address:", error);
-      }
-    };
-    fetchSavedIP();
-  }, []);
-
   useEffect(() => {
     const fetchSelectedLanguage = async () => {
       try {
@@ -417,7 +308,7 @@ const LoginScreen = ({ navigation, route }) => {
                   height: 30,
                   borderRadius: 5,
                 }}
-                onPress={submit}
+                onPress={() => promptAsync()}
               >
                 <Text style={{ color: "white" }}>{I18n.t("signIn")}</Text>
               </TouchableOpacity>

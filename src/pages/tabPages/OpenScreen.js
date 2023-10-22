@@ -10,11 +10,6 @@ import {
 } from "react-native";
 import COLORS from "../../constans/colors";
 import i18n from "../../constans/translation/I18n";
-import {
-  CardStyleInterpolators,
-  createStackNavigator,
-  TransitionSpecs,
-} from "@react-navigation/stack";
 import I18n from "../../constans/translation/I18n";
 import Icon from "react-native-vector-icons/Ionicons";
 import FindUs from "../tabPages/FindUs";
@@ -108,7 +103,7 @@ export default function OpenStackScreen({ navigation }) {
         }}
       />
       <OpenStack.Screen
-        name="Find Us"
+        name="Bize Ulaşın"
         component={FindUs}
         options={{
           headerTitle: () => (

@@ -24,7 +24,7 @@ import { DeleteAccountScreen } from './DeleteAccountScreen';
 import { useNavigation, DrawerActions } from '@react-navigation/native'; // Import DrawerActions
 import i18n from '../../constans/translation/I18n';
 import { useDispatch } from "react-redux";
-import { Logout } from "../../store/actions/auth";
+import { Logout } from "../../store/actions/firebaseConfig";
 import { Ionicons } from '@expo/vector-icons';
 
 export function DrawerContent() {
