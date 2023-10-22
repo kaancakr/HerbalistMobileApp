@@ -308,7 +308,7 @@ const LoginScreen = ({ navigation, route }) => {
                   height: 30,
                   borderRadius: 5,
                 }}
-                onPress={() => promptAsync()}
+                onPress={() => request && promptAsync()}
               >
                 <Text style={{ color: "white" }}>{I18n.t("signIn")}</Text>
               </TouchableOpacity>
