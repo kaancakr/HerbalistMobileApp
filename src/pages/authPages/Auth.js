@@ -4,10 +4,11 @@ import QRReader from "./QRReader";
 import HomeScreen from "../tabPages/HomeScreen";
 import OpenScreen from "../tabPages/OpenScreen";
 import React, { useState } from "react";
-
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import {
+  initializeAuth, 
+  getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithCredential,
@@ -20,6 +21,7 @@ const Stack = createStackNavigator();
 
 function Auth({ navigation }) {
 
+  const auth = getAuth();
   const [userInfo, setUserInfo] = React.useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:

@@ -19,6 +19,7 @@ import I18n from "../../constans/translation/I18n";
 import i18n from "../../constans/translation/I18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
@@ -28,11 +29,9 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 import { auth } from "../../store/actions/firebaseConfig";
-
 const { width } = Dimensions.get("screen");
 
 const LoginScreen = ({ navigation, route }) => {
-
   const [userInfo, setUserInfo] = React.useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
@@ -47,8 +46,6 @@ const LoginScreen = ({ navigation, route }) => {
       signInWithCredential(auth, credential);
     }
   }, [response]);
-
-
 
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -240,7 +237,9 @@ const LoginScreen = ({ navigation, route }) => {
               style={{
                 width: Platform.OS === "ios" ? 120 : 100,
                 height: Platform.OS === "ios" ? 100 : 50,
-                left: 105
+                alignItems: "center",
+                justifyContent: "center",
+                left: 125
               }}
               source={require("../../assets/anadolu_aktari_logo.png")}
               resizeMode="contain"
@@ -298,7 +297,32 @@ const LoginScreen = ({ navigation, route }) => {
                 mode="contained"
                 ref={(button) => setSignInButtonRef(button)}
                 style={{
-                  marginTop: 35,
+                  marginTop: 10,
+                  backgroundColor: "#B4B4B3",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderWidth: 1,
+                  borderColor: "#B4B4B3",
+                  width: 150,
+                  height: 30,
+                  borderRadius: 5,
+                }}
+                onPress={() => request && promptAsync()}
+              >
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                  <Icon name="logo-google" color="white" size={15} />
+                  <Text style={{ color: "black", paddingLeft: 10 }}>
+                    {I18n.t("signIn")}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <TouchableOpacity
+                mode="contained"
+                ref={(button) => setSignInButtonRef(button)}
+                style={{
+                  marginTop: 10,
                   backgroundColor: COLORS.optimaGreen,
                   alignItems: "center",
                   justifyContent: "center",
@@ -310,7 +334,12 @@ const LoginScreen = ({ navigation, route }) => {
                 }}
                 onPress={() => request && promptAsync()}
               >
-                <Text style={{ color: "white" }}>{I18n.t("signIn")}</Text>
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                  <Icon name="body-outline" color="white" size={15} />
+                  <Text style={{ color: "black", paddingLeft: 10 }}>
+                    {I18n.t("signIn")}
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
             <View style={{ alignItems: "center" }}>
@@ -330,7 +359,10 @@ const LoginScreen = ({ navigation, route }) => {
                 }}
                 onPress={() => navigation.navigate("OpenScreen")}
               >
-                <Text>{I18n.t("goBack")}</Text>
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                  <Icon name="arrow-undo" color="white" size={15} />
+                  <Text style={{paddingLeft: 10}}>{I18n.t("goBack")}</Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
