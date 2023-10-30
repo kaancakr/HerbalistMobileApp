@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,105 +10,79 @@ import {
   ScrollView,
 } from "react-native";
 import COLORS from "../../constans/colors";
-import i18n from "../../constans/translation/I18n";
 import I18n from "../../constans/translation/I18n";
 import Icon from "react-native-vector-icons/Ionicons";
 import FindUs from "../tabPages/FindUs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useFonts } from "expo-font";
 const WINDOW_WIDTH = Dimensions.get("window").width;
-
-const DATA = [
-  {
-    id: "list1",
-    icon: "medical-outline",
-  },
-  {
-    id: "list2",
-    icon: "bandage-outline",
-  },
-  {
-    id: "list3",
-    icon: "fast-food-outline",
-  },
-  {
-    id: "list4",
-    icon: "medical-outline",
-  },
-  {
-    id: "list5",
-    icon: "bandage-outline",
-  },
-  {
-    id: "list6",
-    icon: "fast-food-outline",
-  },
-];
-
-const verticalDATA = [
-  {
-    id: "verticalList1",
-    title: "Medicine Prospectus",
-    subtitle: "You need to use ....",
-  },
-  {
-    id: "verticalList2",
-    title: "Medicine Prospectus",
-    subtitle: "You need to use ....",
-  },
-  {
-    id: "verticalList3",
-    title: "Medicine Prospectus",
-    subtitle: "You need to use ....",
-  },
-  {
-    id: "verticalList4",
-    title: "Medicine Prospectus",
-    subtitle: "You need to use ....",
-  },
-  {
-    id: "verticalList5",
-    title: "Medicine Prospectus",
-    subtitle: "You need to use ....",
-  },
-  {
-    id: "verticalList6",
-    title: "Medicine Prospectus",
-    subtitle: "You need to use ....",
-  },
-];
-
-const Item = ({ icon }) => (
-  <View style={styles.item}>
-    <Icon name={icon} size={50} color="black" style={styles.iconStyle} />
-  </View>
-);
-
-const VerticalItem = ({ title, subtitle }) => (
-  <View style={styles.verticalItem}>
-    <Text style={styles.title}>{title}</Text>
-    <Text style={styles.subtitle}>{subtitle}</Text>
-  </View>
-);
+const WINDOW_HEIGHT = Dimensions.get("window").height;
+import * as SplashScreen from "expo-splash-screen";
+import { Searchbar } from "react-native-paper";
+SplashScreen.preventAutoHideAsync();
 
 const OpenScreen = ({ navigation }) => {
+  const [fontsLoaded] = useFonts({
+    HussarBold: require("../../../assets/fonts/HussarBold.otf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
       <View style={styles.itemContainer}>
-        <FlatList
-          data={DATA}
-          renderItem={({ item }) => <Item icon={item.icon} />}
-          keyExtractor={(item) => item.id}
-          horizontal={true}
-          style={{ flexDirection: "row" }}
+        <Text style={styles.topContainerText}>Sağlıklı Günler...</Text>
+        <Text style={styles.topContainerSecondText}>
+          Anadolu Aktarına Hoşgeldiniz
+        </Text>
+      </View>
+      <View style={styles.searchbarContainer}>
+        <Searchbar
+          placeholder="Nasıl Yardımcı Olabiliriz ?"
+          style={styles.searchbar}
         />
-        <FlatList
-          data={verticalDATA}
-          renderItem={({ item }) => (
-              <VerticalItem title={item.title} subtitle={item.subtitle}/>
-          )}
-          keyExtractor={(item) => item.id}
-          style={{ flexDirection: "column" }}
-        />
+      </View>
+      <View style={styles.bottomContainer}>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
+          <View style={styles.firstIcon}>
+            <View>
+              <Icon name="medical-outline" color="#247158" size={80} />
+            </View>
+
+            <Text style={{ color: "#95877A" }}>Muayene İle İlaç Seçimi</Text>
+          </View>
+          <View style={styles.secondIcon}>
+            <View>
+              <Icon name="bandage-outline" color="#247158" size={80} />
+            </View>
+
+            <Text style={{ color: "#95877A" }}>Uzman Müdahalesi</Text>
+          </View>
+        </View>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
+          <View style={styles.firstIcon}>
+            <View>
+              <Icon name="eyedrop-outline" color="#247158" size={80} />
+            </View>
+
+            <Text style={{ color: "#95877A" }}>Şifalı Karışımlar</Text>
+          </View>
+          <View style={styles.secondIcon}>
+            <View>
+              <Icon name="man-outline" color="#247158" size={80} />
+            </View>
+
+            <Text style={{ color: "#95877A" }}>Hasta Takibi</Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -121,8 +95,8 @@ export default function OpenStackScreen({ navigation }) {
     <OpenStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: COLORS.white,
           height: 125,
+          backgroundColor: "#186049",
         },
         headerTintColor: "#000",
         headerTitleStyle: {
@@ -140,6 +114,7 @@ export default function OpenStackScreen({ navigation }) {
               style={{
                 width: Platform.OS === "ios" ? 120 : 100,
                 height: Platform.OS === "ios" ? 100 : 50,
+                backgroundColor: "#186049",
               }}
               source={require("../../assets/anadolu_aktari_logo.png")}
               resizeMode="contain"
@@ -151,8 +126,8 @@ export default function OpenStackScreen({ navigation }) {
               name="person-circle-outline"
               color={"#86A789"}
               size={40}
-              backgroundColor={COLORS.white}
-              underlayColor={COLORS.white}
+              backgroundColor={"#186049"}
+              underlayColor={"#186049"}
               onPress={() => navigation.navigate("LoginScreen")} // 'Login' should be the name of the login screen
             >
               {" "}
@@ -183,8 +158,8 @@ export default function OpenStackScreen({ navigation }) {
               name="person-circle-outline"
               color={"#86A789"}
               size={40}
-              backgroundColor={COLORS.white}
-              underlayColor={COLORS.white}
+              backgroundColor={"#186049"}
+              underlayColor={"#186049"}
               onPress={() => navigation.navigate("LoginScreen")} // 'Login' should be the name of the login screen
             >
               {" "}
@@ -210,38 +185,83 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   itemContainer: {
-    marginTop: 20,
-    marginLeft: 10,
+    backgroundColor: "#186049",
+    height: WINDOW_HEIGHT / 2.5,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
-  item: {
-    backgroundColor: "#86A789",
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 10,
-    borderRadius: 20,
-    width: 100,
-    height: 100,
-    marginBottom: 20
+  topContainerText: {
+    fontSize: 34,
+    marginTop: 180,
+    marginLeft: 30,
+    color: COLORS.white,
+    fontFamily: "HussarBold",
   },
-  verticalItem: {
-    backgroundColor: "#B2C8BA",
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 10,
-    borderRadius: 20,
-    width: WINDOW_WIDTH - 35,
-    height: 100,
-    marginTop: 20
-  },
-  iconStyle: {
-    top: 12,
-    left: 15,
-  },
-  title: {
+  topContainerSecondText: {
     fontSize: 18,
+    marginTop: 10,
+    marginLeft: 30,
+    color: COLORS.white,
+    fontFamily: "HussarBold",
   },
-  subtitle: {
-    fontSize: 14,
-    color: "gray"
-  }
+  searchbarContainer: {
+    width: WINDOW_WIDTH - 30,
+    marginLeft: 15,
+    marginTop: -20,
+  },
+  searchbar: {
+    borderRadius: 20,
+  },
+  bottomContainer: {
+    width: WINDOW_WIDTH - 30,
+    marginLeft: 15,
+    marginTop: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  firstIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 2,
+    width: 150,
+    padding: 10,
+    marginRight: 40,
+    marginBottom: 20,
+    borderColor: "white",
+    backgroundColor: "white", // Add a background color
+    ...Platform.select({
+      android: {
+        elevation: 5, // For Android
+      },
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+    }),
+  },
+  secondIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 2,
+    width: 150,
+    padding: 10,
+    marginBottom: 20,
+    borderColor: "white",
+    backgroundColor: "white", // Add a background color
+    ...Platform.select({
+      android: {
+        elevation: 5, // For Android
+      },
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+    }),
+  },
 });

@@ -26,6 +26,7 @@ import i18n from '../../constans/translation/I18n';
 import { useDispatch } from "react-redux";
 import { Logout } from "../../store/actions/firebaseConfig";
 import { Ionicons } from '@expo/vector-icons';
+import { signOut } from 'firebase/auth';
 
 export function DrawerContent() {
 
@@ -218,7 +219,7 @@ export function DrawerContent() {
           />
         )}
         label={i18n.t('signOut')}
-        onPress={submit}
+        onPress={async () => await signOut(auth)}
       />
 
       <Text

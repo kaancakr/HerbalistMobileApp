@@ -11,6 +11,7 @@ import {
   Alert,
   Switch,
   FlatList,
+  ActivityIndicator
 } from "react-native";
 import { Surface, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -20,32 +21,9 @@ import i18n from "../../constans/translation/I18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import Icon from "react-native-vector-icons/Ionicons";
-
-import * as Google from "expo-auth-session/providers/google";
-import * as WebBrowser from "expo-web-browser";
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithCredential,
-} from "firebase/auth";
-import { auth } from "../../store/actions/firebaseConfig";
 const { width } = Dimensions.get("screen");
 
-const LoginScreen = ({ navigation, route }) => {
-  const [userInfo, setUserInfo] = React.useState();
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId:
-      "397825100171-0mb9mb62pcohglk6hp4pjji7cc37a76p.apps.googleusercontent.com",
-    androidClientId:
-      "397825100171-9p6kou3elami72qv14rth458kh8jhoc5.apps.googleusercontent.com",
-  });
-  React.useEffect(() => {
-    if (response?.type == "success") {
-      const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential);
-    }
-  }, [response]);
+const LoginScreen = ({ navigation, promptAsync }) => {
 
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -307,7 +285,7 @@ const LoginScreen = ({ navigation, route }) => {
                   height: 30,
                   borderRadius: 5,
                 }}
-                onPress={() => request && promptAsync()}
+                onPress={() => promptAsync()}
               >
                 <View style={{ display: "flex", flexDirection: "row" }}>
                   <Icon name="logo-google" color="white" size={15} />
