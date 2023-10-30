@@ -301,11 +301,11 @@ const LoginScreen = ({ navigation, promptAsync }) => {
                 ref={(button) => setSignInButtonRef(button)}
                 style={{
                   marginTop: 10,
-                  backgroundColor: COLORS.optimaGreen,
+                  backgroundColor: "#247158",
                   alignItems: "center",
                   justifyContent: "center",
                   borderWidth: 1,
-                  borderColor: COLORS.optimaGreen,
+                  borderColor: "#247158",
                   width: 150,
                   height: 30,
                   borderRadius: 5,
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   loginContent: {
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "#454545",
+    backgroundColor: "#186049",
   },
   box: {
     justifyContent: "center",
@@ -454,11 +454,11 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   languageButton: {
-    backgroundColor: COLORS.optimaGreen,
+    backgroundColor: "#247158",
     padding: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: COLORS.optimaGreen,
+    borderColor: "#95877A",
   },
   languageButtonText: {
     color: COLORS.white,

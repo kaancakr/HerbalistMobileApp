@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     backgroundColor: "#186049",
-    height: WINDOW_HEIGHT / 2.5,
+    height: WINDOW_HEIGHT / 2.8,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
