@@ -127,6 +127,6 @@ const tr = {
   visitorName: "Ziyaretçi Adı",
   goBack: "Geriye Dön",
   terminalList: "Terminal Ayarları",
-  openScreenName: "Açılış Sayfası"
+  openScreenName: "Ana Sayfa"
 };
 export default tr;

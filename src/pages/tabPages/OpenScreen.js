@@ -6,8 +6,7 @@ import {
   Image,
   Dimensions,
   SafeAreaView,
-  FlatList,
-  ScrollView,
+  TouchableOpacity
 } from "react-native";
 import COLORS from "../../constans/colors";
 import I18n from "../../constans/translation/I18n";
@@ -52,36 +51,36 @@ const OpenScreen = ({ navigation }) => {
       </View>
       <View style={styles.bottomContainer}>
         <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
-          <View style={styles.firstIcon}>
+          <TouchableOpacity style={styles.firstIcon}>
             <View>
               <Icon name="medical-outline" color="#247158" size={80} />
             </View>
 
             <Text style={{ color: "#95877A" }}>Muayene İle İlaç Seçimi</Text>
-          </View>
-          <View style={styles.secondIcon}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.secondIcon}>
             <View>
               <Icon name="bandage-outline" color="#247158" size={80} />
             </View>
 
             <Text style={{ color: "#95877A" }}>Uzman Müdahalesi</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
-          <View style={styles.firstIcon}>
+          <TouchableOpacity style={styles.firstIcon}>
             <View>
               <Icon name="eyedrop-outline" color="#247158" size={80} />
             </View>
 
             <Text style={{ color: "#95877A" }}>Şifalı Karışımlar</Text>
-          </View>
-          <View style={styles.secondIcon}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.secondIcon}>
             <View>
               <Icon name="man-outline" color="#247158" size={80} />
             </View>
 
             <Text style={{ color: "#95877A" }}>Hasta Takibi</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

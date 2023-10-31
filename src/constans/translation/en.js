@@ -128,7 +128,7 @@ const en = {
   visitorName: "Visitor Name",
   goBack: "Go Back",
   terminalList: "Terminal Settings",
-  openScreenName: "Open Screen"
+  openScreenName: "Home Screen"
 };
 
 export default en;
