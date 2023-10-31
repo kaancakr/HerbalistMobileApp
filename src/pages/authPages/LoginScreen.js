@@ -11,7 +11,7 @@ import {
   Alert,
   Switch,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import { Surface, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -24,7 +24,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 const { width } = Dimensions.get("screen");
 
 const LoginScreen = ({ navigation, promptAsync }) => {
-
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -217,7 +216,7 @@ const LoginScreen = ({ navigation, promptAsync }) => {
                 height: Platform.OS === "ios" ? 100 : 50,
                 alignItems: "center",
                 justifyContent: "center",
-                left: 125
+                left: 125,
               }}
               source={require("../../assets/anadolu_aktari_logo.png")}
               resizeMode="contain"
@@ -310,7 +309,7 @@ const LoginScreen = ({ navigation, promptAsync }) => {
                   height: 30,
                   borderRadius: 5,
                 }}
-                onPress={() => request && promptAsync()}
+                onPress={() => promptAsync()}
               >
                 <View style={{ display: "flex", flexDirection: "row" }}>
                   <Icon name="body-outline" color="white" size={15} />
@@ -339,7 +338,7 @@ const LoginScreen = ({ navigation, promptAsync }) => {
               >
                 <View style={{ display: "flex", flexDirection: "row" }}>
                   <Icon name="arrow-undo" color="white" size={15} />
-                  <Text style={{paddingLeft: 10}}>{I18n.t("goBack")}</Text>
+                  <Text style={{ paddingLeft: 10 }}>{I18n.t("goBack")}</Text>
                 </View>
               </TouchableOpacity>
             </View>
